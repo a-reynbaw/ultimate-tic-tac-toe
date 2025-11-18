@@ -1,41 +1,41 @@
-name: C CI Workflow
+name: Compile and Test Docker Image
 
 on:
   push:
-    branches: [ "main" ] 
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ] 
+    branches: [ "main" ]
 
 jobs:
-  build-format-test:
-    name: Build, Format Check & Test
+  compile:
+    name: Compile C code
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Run make
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc make clang-format
-
-      - name: Code formatting
-        run: |
-          echo "Formatting C code..."
-          find . \( -name "*.c" -o -name "*.h" \) -exec clang-format -i -style=Google {} \;
-          echo "Formatting completed."
-
-      - name: Compile project
-        run: |
+          sudo apt-get install -y build-essential
           make
-          echo "Build successful."
 
-      - name: Basic executable check
+      - name: Basic artifact check
         run: |
-          if [ -f game ] && [ -x game ]; then
-            echo "Executable 'game' exists and is executable."
-          else
-            echo "Error: Executable 'game' not found or not executable."
-            exit 1
-          fi
+          test -f ./game
+          echo "Build artifact 'game' found successfully."
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ultimate-tic-tac-toe:latest
+
+      - name: Basic artifact check
+        run: |
+          docker run --rm ultimate-tic-tac-toe:latest sh -c "test -f /app/public/index.html"
+          echo "Build artifact 'index.html' found successfully."

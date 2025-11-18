@@ -1,0 +1,143 @@
+:root {
+    --bg-color: #f0f0f0;
+    --text-color: #333;
+    --board-bg: #ddd;
+    --board-border: #333;
+    --small-board-border: #555;
+    --cell-border: #999;
+    --cell-hover: #e9e9e9;
+    --status-bg: #fff;
+    --status-border: #ccc;
+    --player-x-color: #3498db;
+    --player-o-color: #e74c3c;
+    --draw-color: #7f8c8d;
+    --active-board-bg: #d4edda;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-color: #2c3e50;
+    --text-color: #ecf0f1;
+    --board-bg: #34495e;
+    --board-border: #ecf0f1;
+    --small-board-border: #95a5a6;
+    --cell-border: #7f8c8d;
+    --cell-hover: #4a637e;
+    --status-bg: #34495e;
+    --status-border: #7f8c8d;
+    --player-x-color: #5dade2;
+    --player-o-color: #f1948a;
+    --draw-color: #bdc3c7;
+    --active-board-bg: #2e4a4e;
+}
+
+/* --- General & Icon Styles --- */
+body {
+    font-family: sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#theme-switcher svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-color);
+}
+
+/* Show only the icon for the current theme */
+[data-theme="light"] #moon-icon { display: none; }
+[data-theme="dark"] #sun-icon { display: none; }
+
+/* --- Board Styles (using variables) --- */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 600px;
+    height: 600px;
+    margin: 20px auto;
+    border: 3px solid var(--board-border);
+    background-color: var(--board-bg);
+}
+
+.small-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    border: 2px solid var(--small-board-border);
+    transition: background-color 0.3s;
+}
+
+.cell {
+    border: 1px solid var(--cell-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.cell:hover {
+    background-color: var(--cell-hover);
+}
+
+.cell.X {
+    color: var(--player-x-color);
+}
+
+.cell.O {
+    color: var(--player-o-color);
+}
+
+.active-board {
+    background-color: var(--active-board-bg);
+}
+
+.won-X, .won-O, .won-DRAW {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8em;
+    font-weight: bold;
+}
+
+.won-X {
+    color: var(--player-x-color);
+    background-color: color-mix(in srgb, var(--player-x-color) 20%, transparent);
+}
+.won-O {
+    color: var(--player-o-color);
+    background-color: color-mix(in srgb, var(--player-o-color) 20%, transparent);
+}
+.won-DRAW {
+    color: var(--draw-color);
+    background-color: color-mix(in srgb, var(--draw-color) 20%, transparent);
+}
+
+#status-container {
+    margin: 20px auto;
+    padding: 10px;
+    background-color: var(--status-bg);
+    border: 1px solid var(--status-border);
+    width: 600px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 1em;
+    cursor: pointer;
+}

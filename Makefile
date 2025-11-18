@@ -2,19 +2,23 @@
 # Author: Anastasia Marinakou | sdi2400120
 # Course: Data Structures and Programing Techniques (Even)
 
-# Brief: use this Makefile to compile question6.c and list.c
+# Brief: use this Makefile to compile main.c and state.c
 
 # Compiler
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -Werror -Wextra -pedantic
+CFLAGS = -Wall -Werror -Wextra -pedantic -Iinclude
+
+# Directories
+SRCDIR = src
+INCDIR = include
 
 # Source files
-SOURCES = main.c state.c
+SOURCES = $(SRCDIR)/main.c $(SRCDIR)/state.c
 
 # Header files
-HEADERS = state.h
+HEADERS = $(INCDIR)/state.h
 
 # Object files
 OBJS = $(SOURCES:.c=.o)
@@ -27,9 +31,9 @@ $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(PROGRAM)
 
 # Rule to compile .c files into .o files, ensuring header dependencies
-%.o: %.c $(HEADERS)
+$(SRCDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean rule
 clean:
-	rm -f $(PROGRAM) $(OBJS)
+	rm -f $(PROGRAM) $(SRCDIR)/*.o
